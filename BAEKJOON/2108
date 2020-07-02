@@ -1,0 +1,90 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int N;
+
+    public static int getAvg( int[] arr ) {
+        double sum = 0;
+        double result = 0;
+
+        for ( int i = 0; i < N; ++i ) {
+            sum = sum + arr[ i ];
+        }
+
+        result = Math.round( sum / N );
+
+        return (int)Math.ceil( result );
+    }
+
+    public static int getMiddle( int[] arr ) {
+        return arr[ N / 2 ];
+    }
+
+    public static int getRange( int[] arr ) {
+        return arr[ N - 1 ] - arr[ 0 ];
+    }
+
+    public static int maxCountNum( int[] arr ) {
+        int[] cnt = new int[ 8_001 ];
+        ArrayList<Integer> list = new ArrayList<>();
+
+        int max = Integer.MIN_VALUE;
+
+        for ( int x : arr ) {
+            if ( x < 0 ) {
+                cnt[ Math.abs( x ) + 4000 ]++;
+            } else {
+                cnt[ x ]++;
+            }
+        }
+
+        int index = 0;
+        for( int i = 0; i < cnt.length; ++i ) {
+            if( cnt[ i ] != 0 && cnt[ i ] > max ) {
+                max = cnt[ i ];
+                index = i;
+            }
+        }
+
+        for( int i = 0; i < cnt.length; ++i ) {
+            int x = i;
+            if ( cnt[ i ] == max ) {
+                if ( i > 4000 ) {
+                    x = x - 4000;
+                    x = x * -1;
+                    list.add( x );
+                } else {
+                    list.add( i );
+                }
+            }
+        }
+
+        Collections.sort( list );
+
+        if ( list.size() > 1 ) {
+            return list.get( 1 );
+        } else {
+            return list.get( 0 );
+        }
+    }
+
+    public static void main( String[] args ) throws IOException {
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+
+        N = Integer.parseInt( br.readLine() );
+
+        int[] arr = new int[ N ];
+
+        for ( int i = 0; i < N; ++i ) {
+            arr[ i ] = Integer.parseInt( br.readLine() );
+        }
+
+        Arrays.sort( arr );
+
+        System.out.println( getAvg( arr ) );
+        System.out.println( getMiddle( arr ) );
+        System.out.println( maxCountNum( arr ));
+        System.out.println( getRange( arr ) );
+    }
+}
