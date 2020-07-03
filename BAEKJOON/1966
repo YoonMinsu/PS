@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int T = Integer.parseInt(br.readLine());
+        for (int i = 0; i < T; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
+            ArrayList<Ele> list = new ArrayList<Ele>();
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                list.add(new Ele(j, Integer.parseInt(st.nextToken())));
+            }
+            int cnt = 1;
+            base:
+            while (!list.isEmpty()) {
+                Ele e = list.get(0);
+                for(int j = 1; j < list.size(); j++){
+                    if(e.val < list.get(j).val){
+                        list.remove(0);
+                        list.add(e);
+                        continue base;
+                    }
+                }
+                if(e.pos == M){
+                    break;
+                }
+                list.remove(0);
+                cnt++;
+            }
+            bw.write(cnt + "\n");
+        }
+
+        bw.flush();
+        br.close();
+        bw.close();
+    }
+
+    static class Ele {
+        int pos, val;
+
+        public Ele(int pos, int val) {
+            this.pos = pos;
+            this.val = val;
+        }
+    }
+}
