@@ -1,0 +1,86 @@
+import java.io.*;
+
+class Date {
+    int year;
+    int month;
+    int day;
+
+    public Date( int year, int month, int day ) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+}
+
+public class Main {
+
+    private static int[] monthDay= { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    public static boolean checkLeapYear( int year ) {
+        if ( year == 1 ) {
+            return false;
+        } else if ( year % 4 == 0 && ( year % 100 != 0 || year % 400 == 0 ) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static int dayCount( Date date ) {
+        int total = date.day;
+
+        if( checkLeapYear( date.year ) ) {
+            monthDay[ 1 ] = 29;
+        }
+
+        for( int i = 1; i < date.month; ++i ) {
+            total = total + monthDay[ i - 1 ];
+        }
+
+        return total;
+    }
+
+    public static void main( String[] args ) throws IOException {
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+
+        Date startDate, endDate;
+
+        String[] line = br.readLine().split( " " );
+        int startYear  = Integer.parseInt( line[ 0 ] );
+        int startMonth = Integer.parseInt( line[ 1 ] );
+        int startDay   = Integer.parseInt( line[ 2 ] );
+
+        line = br.readLine().split( " " );
+        int endYear  = Integer.parseInt( line[ 0 ] );
+        int endMonth = Integer.parseInt( line[ 1 ] );
+        int endDay   = Integer.parseInt( line[ 2 ] );
+
+        int startDateAllDay = dayCount( startDate = new Date( startYear, startMonth, startDay ) );
+        int endDateAllDay   = dayCount( endDate   = new Date( endYear, endMonth, endDay ) );
+
+        int calcStartDate = 0, calcEndDate = 0;
+
+        for ( int i = 0; i < startDate.year; ++i ) {
+            if( checkLeapYear( i ) ) {
+                calcStartDate = calcStartDate + 366;
+            } else {
+                calcStartDate = calcStartDate + 365;
+            }
+        }
+
+        for ( int i = 0; i < endDate.year; ++i ) {
+            if( checkLeapYear( i ) ) {
+                calcEndDate = calcEndDate + 366;
+            } else {
+                calcEndDate = calcEndDate + 365;
+            }
+        }
+
+        if( ( endDate.year - startDate.year ) >= 1000 && startDateAllDay <= endDateAllDay ) {
+            System.out.println("gg");
+        } else {
+            System.out.println( "D-" + ((calcEndDate + endDateAllDay) - (calcStartDate + startDateAllDay)) );
+        }
+
+    }
+}
