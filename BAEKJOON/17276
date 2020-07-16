@@ -1,0 +1,127 @@
+// 배열 돌리기!
+
+
+import java.io.*;
+
+public class Main {
+
+    private static int[][] arr; // 원본
+    private static int[][] out; // 출력
+
+    private static int[][] copyArr( int[][] arr, int size ) {
+
+        int[][] out = new int[ size ][ size ];
+
+        for ( int x = 0; x < size; ++x ) {
+            for ( int y = 0; y < size; ++y ) {
+                out[ x ][ y ] = arr[ x ][ y ];
+            }
+        }
+
+        return out;
+    }
+
+    // 배열 초기화
+    public static void initArr( int size, BufferedReader br ) throws IOException {
+        arr = new int[ size ][ size ];
+        out = new int[ size ][ size ];
+
+        for ( int x = 0; x < size; ++x ) {
+            String[] line = br.readLine().split( " " );
+            for ( int y = 0; y < size; ++y ) {
+                arr[ x ][ y ] = Integer.parseInt( line[ y ] );
+            }
+        }
+
+        out = copyArr( arr, size );
+
+    }
+
+    // 결과 출력
+    public static void print( int size, BufferedWriter bw ) throws IOException {
+        for ( int x = 0; x < size; ++x ) {
+            for ( int y = 0; y < size; ++y ) {
+//                System.out.print( out[ x ][ y ] + "\t" );
+                bw.write( out[ x ][ y ] + " " );
+            }
+            bw.write( '\n' );
+        }
+        bw.flush();
+    }
+
+    // 시계 방향
+    private static void degreesClockWise( int size ) {
+
+        for ( int i = 0; i < size; ++i ) {
+            out[ i ][ i ] = arr[ size / 2 ][ i ];                   // 좌측 대각선 = 가로
+            out[ i ][ size / 2 ] = arr[ i ][ i ];                   // 세로 = 좌측 대각선
+            out[ i ][ ( size - 1 ) - i ] = arr[ i ][ size / 2 ];     // 우측 대각선 = 세로
+            out[ size / 2 ][ i ] = arr[ ( size - 1 ) - i ][ i ];    // 가로 = 우측 대각선
+        }
+
+        arr = copyArr( out, size );
+    }
+
+    // 반시계 반향
+    private static void degreesCounterClockWise( int size ) {
+
+        for ( int i = 0; i < size; ++i ) {
+            out[ i ][ i ] = arr[ i ][ size / 2 ];                   // 좌측 대각선 = 세로
+            out[ size / 2 ][ i ] = arr[ i ][ i ];                   // 가로 = 좌측 대각선
+            out[ ( size - 1 ) - i ][ i ] = arr[ size / 2 ][ i ];    // 우측 대각선 = 가로
+            out[ i ][ size / 2 ] = arr[ i ][ size - 1 - i ];        //세로 = 우측 대각선
+        }
+
+        arr = copyArr( out, size );
+    }
+
+    // 컨트롤러
+    public static void controller( int size, int degrees ) {
+
+        int temp = degrees;
+
+        if( temp < 0 )  {
+            temp = degrees * -1;
+        }
+
+        int count = temp / 45;
+
+        if ( degrees > 0 ) {
+           for ( int i = 0; i < count; ++i ) {
+               degreesClockWise( size );
+           }
+        } else {
+            for ( int i = 0; i < count; ++i ) {
+                degreesCounterClockWise( size );
+            }
+        }
+
+    }
+
+
+
+    public static void main( String[] args ) throws IOException {
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+        BufferedWriter bw = new BufferedWriter( new OutputStreamWriter( System.out ) );
+
+        int test = Integer.parseInt( br.readLine() );
+
+
+        for ( int t = 0; t < test; ++t ) {
+
+            String[] line = br.readLine().split( " " );
+
+            int size    = Integer.parseInt( line[ 0 ] );
+            int degrees = Integer.parseInt( line[ 1 ] );
+
+            initArr( size, br );
+
+            controller( size, degrees );
+
+            print( size, bw );
+
+        } // end for
+        bw.close();
+
+    }
+}
