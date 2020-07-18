@@ -1,0 +1,66 @@
+import java.io.*;
+
+public class Main {
+
+    public static int festival_2017( int rank ) {
+        int reward = 0;
+
+        if ( rank == 0 ) {
+            reward = 0;
+        } else if ( rank == 1 ) {
+            reward = 5_000_000;
+        } else if ( 1 < rank && rank <= 3 ) {
+            reward = 3_000_000;
+        } else if ( 3 < rank && rank <= 6 ) {
+            reward = 2_000_000;
+        } else if ( 6 < rank && rank <= 10 ) {
+            reward = 500_000;
+        } else if ( 10 < rank && rank <= 15 ) {
+            reward = 300_000;
+        } else if ( 15 < rank && rank <= 21 ) {
+            reward = 100_000;
+        }
+
+        return reward;
+    }
+
+    public static int festival_2018( int rank ) {
+        int reward = 0;
+        if ( rank == 0 ) {
+            reward = 0;
+        } else if ( rank == 1 ) {
+            reward = 5_120_000;
+        } else if ( rank > 1 && rank <= 3 ) {
+            reward = 2_560_000;
+        } else if ( rank > 3 && rank <= 7 ) {
+            reward = 1_280_000;
+        } else if ( rank > 7 && rank <= 15 ) {
+            reward = 640_000;
+        } else if ( rank > 15 && rank <= 31 ) {
+            reward = 320_000;
+        }
+
+        return reward;
+    }
+
+    public static void main( String[] args ) throws IOException {
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+        BufferedWriter bw = new BufferedWriter( new OutputStreamWriter( System.out ) );
+
+
+        int t = Integer.parseInt( br.readLine() );
+
+        while( t-- > 0 ) {
+            String[] line = br.readLine().split( " " );
+
+            int fes2017 = Integer.parseInt( line[ 0 ] );
+            int fes2018 = Integer.parseInt( line[ 1 ] );
+
+            int ans = festival_2017( fes2017 ) + festival_2018( fes2018 );
+            bw.write( ans + "\n" );
+
+        }
+        bw.flush();
+        bw.close();
+    }
+}
