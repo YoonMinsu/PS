@@ -50,7 +50,6 @@ public class Main {
 
 
         permutation( arr, out, visited, 0, n ,r );
-
         bw.flush();
         bw.close();
     }
