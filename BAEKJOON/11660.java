@@ -2,17 +2,6 @@ import java.io.*;
 
 public class Main {
 
-//    public static int solution( int[][] arr, int x1, int y1, int x2, int y2 ) {
-//        int sum = 0;
-//
-//        for ( int x = x1; x <= x2; ++x ) {
-//            sum = sum + ( arr[ x ][ y2 ] - arr[ x ][ y1 - 1 ] );
-//        }
-//
-//        return sum;
-//    }
-
-
     public static void main( String[] args ) throws IOException {
 
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
@@ -29,8 +18,7 @@ public class Main {
         for ( int i = 1; i <= n; ++i ) {
             line = br.readLine().split( " " );
             for ( int j = 1; j <= n; ++j ) {
-//                arr[ i ][ j ] = arr[ i ][ j - 1 ] + Integer.parseInt( line[ j - 1 ] );
-              arr[ i ][ j ] = arr[ i ][ j - 1 ] + arr[ i - 1 ][ j ] - arr[ i - 1 ][ j - 1 ]
+                arr[ i ][ j ] = arr[ i ][ j - 1 ] + arr[ i - 1 ][ j ] - arr[ i - 1 ][ j - 1 ]
               + Integer.parseInt( line[ j - 1 ] );
             }
         }
@@ -44,8 +32,6 @@ public class Main {
             y1 = Integer.parseInt( line[ 1 ] );
             x2 = Integer.parseInt( line[ 2 ] );
             y2 = Integer.parseInt( line[ 3 ] );
-
-//            bw.write( solution( arr, x1, y1, x2, y2 ) + "\n");
 
             bw.write( arr[x2][y2] - arr[x1-1][y2] - arr[x2][y1-1] + arr[x1-1][y1-1] + "\n");
 
